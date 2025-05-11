@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problematic HTML</title>
+    <script>
+        'use strict'; // Best practice: Strict mode
+        
+        // Bad practice: Inline JavaScript
+        const password = "hardcoded_secret_password";
+        
+        // Issue 1: Undefined variable usage (will trigger ESLint error)
+        userData = "some data"; // ESLint will flag userData as undefined
+
+        // Issue 2: eval usage (security risk, flagged by ESLint)
+        eval("alert('This is a problematic use of eval!');");
+
+        // Issue 3: Using console (ESLint flag based on configuration)
+        console.log("This is a console log that might trigger ESLint warning");
+
+        // Issue 4: Missing semicolon (ESLint can detect missing semicolons if not in 'semicolons' rule configuration)
+        const value = "missing semicolon"
+    </script>
+</head>
+<body>
+    <h1>Welcome to the Insecure Page</h1>
+    
+    <!-- Problematic form with no validation -->
+    <form action="http://example.com/login" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username"><br><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"><br><br>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- XSS Vulnerability: Unsanitized user input -->
+    <script>
+        const userInput = "<script>alert('XSS vulnerability!');</script>";
+        document.write(userInput);
+    </script>
+</body>
+</html>

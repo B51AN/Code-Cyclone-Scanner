@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            margin: 20px auto;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #333;
+        }
+        #results {
+            margin-top: 20px;
+            padding: 15px;
+            text-align: left;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #ffeeba;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            position: relative;
+        }
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .info {
+            color: #007bff;
+            font-weight: bold;
+        }
+        .explanation-link {
+            margin-left: 10px;
+            font-size: 14px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .explanation-link:hover {
+            text-decoration: underline;
+        }
+        .home-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            font-size: 16px;
+            text-decoration: none;
+            color: white;
+            background: #007bff;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .home-button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Scan Results</h1>
+        <div id="results">
+            <p>Loading results...</p>
+        </div>
+        <a href="/index.html" class="home-button">Go back to scanner</a>
+    </div>
+
+    <script>
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('data') ? JSON.parse(decodeURIComponent(params.get('data'))) : null;
+        }
+
+        window.onload = () => {
+            const data = getQueryParams();
+            const resultsDiv = document.getElementById('results');
+
+            if (!data) {
+                resultsDiv.innerHTML = '<p class="info">No results found.</p>';
+                return;
+            }
+
+            // ESLint Error Mapping to Explanations
+            const explanationLinks = {
+                // JavaScript Error Mapping to Explanations
+                "assigned a value but never used": "unused-variable",  // Updated to map to the same explanation
+                "defined but never used": "unused-variable",
+                "not defined": "undefined-variable",
+                "Missing semicolon": "missing-semicolon",
+                "Variable might be used before declaration": "hoisting",
+                "constant": "constant-variable",
+                "eval usage": "eval",
+                "Unexpected console statement": "console-statement",
+                "no-undef": "undefined-variable",
+                "no-unused-vars": "unused-variable",
+                "no-console": "no-console",
+                "no-extra-semi": "no-extra-semi",
+                "no-redeclare": "no-redeclare",
+                "eqeqeq": "eqeqeq",
+                "Duplicate key": "no-dupe-keys",
+                "defined but never used": "unused-variable",  
+                "Parsing error: Unexpected token": "unexpected-token", 
+    
+                // HTML Error Mapping to Explanations (Corrected Links)
+               "Missing DOCTYPE declaration": "missing-doctype",
+                "Unclosed tag": "unclosed-tag",
+                "Unclosed element": "unclosed-tag", // Grouping all unclosed element errors
+                "Unclosed element a": "unclosed-tag", // Mapping all unclosed element errors
+                "Unclosed element span": "unclosed-tag", // Group similar unclosed errors
+                "End tag p implied, but there were open elements": "unclosed-tag", // Consolidating this
+                "End tag for `body` seen, but there were unclosed elements": "unclosed-tag", // Grouping
+
+                "Duplicate ID": "duplicate-id",
+                "An `img` element must have an `alt` attribute": "missing-alt-text",
+                "Element not allowed here": "invalid-element",
+                "Tag is no longer used": "obsolete-tag",
+                "Missing language setting": "missing-lang",
+                "Empty heading tag": "empty-heading",
+                "Meta tag is missing details": "invalid-meta",
+                "One form inside another": "nested-form",
+                "Table layout is wrong": "table-structure",
+                "Input inside anchor tag": "input-inside-anchor",
+                "Stray end tag form": "nested-form", 
+                "A document must not include more than one meta element with a charset attribute": "meta-charset-duplicate"
+            };
+            resultsDiv.innerHTML = '<h3>Detected Issues:</h3>';
+if (data.issues && Array.isArray(data.issues) && data.issues.length > 0) {
+    resultsDiv.innerHTML += `<ul>${data.issues.map(issue => {
+        let explanationLink = "";
+        for (const key in explanationLinks) {
+            if (issue.message.includes(key)) {
+                // Ensure that HTML-related errors are linked to htmlError.html
+                let file = '';
+                if (key.includes('DOCTYPE') || key.includes('tag') || key.includes('ID') || key.includes('lang') || key.includes('element') || key.includes('div')) {
+                    file = 'htmlError.html'; // Always use htmlError.html for HTML-related errors
+                } else {
+                    file = 'javascriptError.html'; // Use javascriptError.html for JavaScript errors
+                }
+
+                explanationLink = `<a href="${file}#${explanationLinks[key]}" class="explanation-link">What exactly is this error?</a>`;
+                break;
+            }
+        }
+
+        return `<li>
+                    <strong>Line ${issue.line}, Column ${issue.column}:</strong> ${issue.message} 
+                    <span class="${issue.severity === 'high' ? 'error' : issue.severity === 'medium' ? 'info' : 'success'}">(${issue.severity})</span>
+                    ${explanationLink}
+                </li>`;
+    }).join('')}</ul>`;
+} else {
+    resultsDiv.innerHTML += '<p class="success">No issues found! Your code is clean.</p>';
+    const noIssuesDiv = document.createElement('div');
+    noIssuesDiv.innerHTML = `
+    <p>Congrats! Theres no issue with your code but you should still have a look at the explanations below to improve and learn:</p>
+    <ul>
+        <li><a href="htmlError.html" class="explanation-link">HTML Error Explanations</a></li>
+        <li><a href="javascriptError.html" class="explanation-link">JavaScript Error Explanations</a></li>
+    </ul>
+    `;
+    resultsDiv.appendChild(noIssuesDiv);
+}
+
+  
+    }
+    </script>
+
+</body>
+</html>
+

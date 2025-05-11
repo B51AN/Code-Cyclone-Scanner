@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        /* Global Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            overflow: hidden;
+        }
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: white;
+            padding: 40px 30px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            transform: translateY(-50px);
+            animation: slideUp 0.7s ease forwards;
+        }
+        h2 {
+            text-align: center;
+            color: #4a90e2;
+            margin-bottom: 30px;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #333;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border 0.3s ease;
+        }
+        input:focus {
+            border-color: #4a90e2;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 25px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #357ab8;
+        }
+        p {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1rem;
+        }
+        a {
+            color: #4a90e2;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #357ab8;
+            text-decoration: underline;
+        }
+
+        @keyframes slideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Sign Up</h2>
+        <form action="/signup" method="POST">
+            <label for="name">Name:</label>
+            <input type="text" name="name" id="name" required><br><br>
+        
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required><br><br>
+        
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required><br><br>
+        
+            <button type="submit">Sign Up</button>
+        </form>    
+        <p>Already have an account? <a href="/login.html">Login</a></p>
+    </div>
+
+</body>
+</html>

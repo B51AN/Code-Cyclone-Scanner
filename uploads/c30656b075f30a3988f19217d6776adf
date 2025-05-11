@@ -1,0 +1,28 @@
+'use strict'; // Best practice: Strict mode
+
+// Bad practice: Inline JavaScript
+const password = "hardcoded_secret_password";
+
+// Issue 1: Undefined variable usage (will trigger ESLint error)
+userData = "some data"; // ESLint will flag userData as undefined
+
+// Issue 2: eval usage (security risk, flagged by ESLint)
+eval("alert('This is a problematic use of eval!');");
+
+// Issue 3: Using console (ESLint flag based on configuration)
+console.log("This is a console log that might trigger ESLint warning");
+
+// Issue 4: Missing semicolon (ESLint can detect missing semicolons if not in 'semi' rule configuration)
+const value = "missing semicolon"
+
+// Issue 5: Function without return type (ESLint may flag this depending on configuration)
+function example() {
+    console.log("This is an example function");
+}
+
+// Issue 6: Using undeclared variables (this would trigger a 'no-undef' ESLint rule error)
+undeclaredVar = "This should be declared";
+
+// Issue 7: Assigning to a constant variable (This will trigger an ESLint error if the 'no-const-assign' rule is enabled)
+const constantValue = "Trying to reassign";
+constantValue = "Reassigning to a constant"; // ESLint error

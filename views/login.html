@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        /* Global Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            overflow: hidden;
+        }
+        .login-box {
+            width: 100%;
+            max-width: 400px;
+            background-color: white;
+            padding: 40px 30px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            transform: translateY(-50px);
+            animation: slideUp 0.7s ease forwards;
+        }
+        .login-box h1 {
+            font-size: 2rem;
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .login-box img {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 150px; /* Adjust based on your logo size */
+        }
+        .login-box input[type="email"],
+        .login-box input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #fafafa;
+        }
+        .login-box input[type="email"]:focus,
+        .login-box input[type="password"]:focus {
+            border-color: #007bff;
+            background-color: #fff;
+            outline: none;
+        }
+        .login-box button {
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .login-box button:hover {
+            background-color: #0056b3;
+        }
+        .login-box p {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1rem;
+        }
+        .login-box a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .login-box a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes slideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <!-- Logo added here -->
+        <img src="project-logo-transparent.png" alt="CodeCyclone Logo">
+
+        <h1>Login</h1>
+        <form action="/login" method="POST">
+            <input type="email" id="email" name="email" placeholder="Enter your email" required><br>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required><br>
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="/signup">Sign up</a></p>
+        <p>Forgot password? <a href="/resetPassword.html">Reset Password</a></p>
+    </div>
+</body>
+</html>

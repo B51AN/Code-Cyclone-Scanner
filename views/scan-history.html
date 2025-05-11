@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Scan History</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #fff8dc, #fef6e4);
+      padding: 40px;
+      color: #444;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      color: #d35400;
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2.2rem;
+    }
+
+    .result {
+      background: #fffbea;
+      border-left: 6px solid #f1c40f;
+      padding: 20px 25px;
+      margin-bottom: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease;
+    }
+
+    .result:hover {
+      transform: scale(1.01);
+    }
+
+    .result strong {
+      font-size: 18px;
+      color: #2c3e50;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .timestamp {
+      color: #888;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin: 0;
+    }
+
+    li {
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .back-button {
+      display: block;
+      margin: 50px auto 0;
+      background-color: #f39c12;
+      color: white;
+      text-align: center;
+      padding: 12px 30px;
+      font-size: 16px;
+      border: none;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .back-button:hover {
+      background-color: #e67e22;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <h1>Your Scan History</h1>
+  <div id="history"></div>
+
+  <a href="/index" class="back-button">← Back to Scanner</a>
+
+  <script>
+    fetch('/history')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById('history');
+        if (data.length === 0) {
+          container.innerHTML = "<p>No past scans found.</p>";
+          return;
+        }
+
+        data.forEach(entry => {
+          const div = document.createElement('div');
+          div.className = 'result';
+          div.innerHTML = `
+            <strong>${entry.file_name}</strong>
+            <div class="timestamp">${new Date(entry.created_at).toLocaleString()}</div>
+            <ul>
+              ${JSON.parse(entry.issues).map(issue => `<li>Line ${issue.line || 'N/A'}: ${issue.message}</li>`).join('')}
+            </ul>
+          `;
+          container.appendChild(div);
+        });
+      })
+      .catch(err => {
+        document.getElementById('history').innerHTML = "<p>Error fetching scan history.</p>";
+      });
+  </script>
+</body>
+</html>

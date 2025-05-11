@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Code Scanner</title>
+
+<!-- Google Font and Font Awesome -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #e3ecff, #ffffff);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 90vh;
+  }
+
+  .scanner-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    max-width: 600px;
+    width: 90%;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .scanner-container:hover {
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    text-align: center;
+    color: #1a2c5b;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+
+  h1 img {
+    height: 40px;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+
+  h2 {
+    text-align: center;
+    color: #5a5a5a;
+    font-weight: 400;
+    margin-bottom: 30px;
+    font-size: 16px;
+  }
+
+  .form-group {
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  label.custom-file-upload {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: #1a73e8;
+    color: white;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+  }
+
+  .custom-file-upload:hover {
+    background-color: #125bb5;
+  }
+
+  input[type="file"] {
+    display: none;
+  }
+
+  #file-name {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+  }
+
+  button, .extra-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  button:hover {
+    background-color: #28a745;
+  }
+
+  button[type="submit"] {
+    background-color: #28a745;
+    color: white;
+  }
+
+  #logout-btn {
+    background-color: #34495e;
+    color: white;
+  }
+
+  #logout-btn:hover {
+    background-color: #2c3e50;
+  }
+
+  .red-btn {
+    background-color: #e74c3c;
+    color: white;
+  }
+
+  .red-btn:hover {
+    background-color: #c0392b;
+  }
+
+  .blue-btn {
+    background-color: #1a73e8;
+    color: white;
+  }
+
+  .blue-btn:hover {
+    background-color: #125bb5;
+  }
+
+  .yellow-btn {
+    background-color: #f1c40f;
+    color: white;
+  }
+
+  .yellow-btn:hover {
+    background-color: #f39c12;
+  }
+
+  #results {
+    margin-top: 20px;
+    text-align: center;
+    color: #e74c3c;
+    font-weight: 500;
+  }
+
+  footer {
+    margin-top: 30px;
+    font-size: 14px;
+    color: #888;
+  }
+
+  @media (max-width: 600px) {
+    .scanner-container {
+      padding: 25px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="scanner-container">
+  <h1><img src="project-logo-transparent.png" alt="Project Logo">Code Cyclone</h1>
+  <h2>Upload a file</h2>
+
+  <form id="scanForm" method="POST" action="/scan" enctype="multipart/form-data">
+    <div class="form-group">
+      <label class="custom-file-upload">
+        <i class="fas fa-upload"></i> Upload File
+        <input type="file" name="file" id="file" />
+      </label>
+      <span id="file-name">No file selected</span>
+    </div>
+
+    <button type="submit">Scan</button>
+  </form>
+
+  <a href="/html-tips.html" class="extra-btn red-btn">HTML Tips</a>
+  <a href="/js-tips.html" class="extra-btn blue-btn">JavaScript Tips</a>
+  <a href="/scan-history.html" class="extra-btn yellow-btn">View Scan History</a>
+  <button id="logout-btn" onclick="logout()">Logout</button>
+
+  <div id="results"></div>
+</div>
+
+<footer>
+  &copy; Code Cyclone – The static code scanner
+</footer>
+
+<script>
+  document.getElementById('file').addEventListener('change', function () {
+    const fileName = this.files[0] ? this.files[0].name : 'No file selected';
+    document.getElementById('file-name').textContent = fileName;
+  });
+
+  document.getElementById('scanForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const fileInput = document.getElementById('file');
+    const file = fileInput.files[0];
+    const allowedTypes = ['text/html', 'application/javascript', 'text/javascript'];
+    const allowedExtensions = ['.html', '.htm', '.js'];
+
+    if (file) {
+      const typeValid = allowedTypes.includes(file.type);
+      const extension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+      const extensionValid = allowedExtensions.includes(extension);
+
+      if (!typeValid || !extensionValid) {
+        document.getElementById('results').innerHTML =
+          '<p style="color: red;">Only HTML or JavaScript (.html, .htm, .js) files are allowed.</p>';
+        return;
+      }
+    }
+
+    const formData = new FormData(event.target);
+
+    try {
+      const response = await fetch('/scan', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!response.ok) throw new Error('Failed to scan file.');
+
+      const result = await response.json();
+      const encoded = encodeURIComponent(JSON.stringify(result));
+      window.location.href = `/results.html?data=${encoded}`;
+    } catch (err) {
+      document.getElementById('results').innerHTML =
+        '<p style="color: red;">An error occurred during scanning. Please try again.</p>';
+    }
+  });
+
+  function logout() {
+    fetch('/logout').then(() => {
+      window.location.href = '/';
+    });
+  }
+</script>
+
+</script>
+</body>
+</html>
