@@ -1,8 +1,8 @@
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
-const authRoutes = require('./routes/auth'); // Authentication routes
-const scanRoutes = require('./routes/scan'); // Scan routes
+const authRoutes = require('./routes/auth'); 
+const scanRoutes = require('./routes/scan'); 
 
 const app = express();
 

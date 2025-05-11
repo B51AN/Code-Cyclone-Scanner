@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scan Results</title>
@@ -128,8 +129,10 @@
                 "Unclosed element": "unclosed-tag", // Grouping all unclosed element errors
                 "Unclosed element a": "unclosed-tag", // Mapping all unclosed element errors
                 "Unclosed element span": "unclosed-tag", // Group similar unclosed errors
-                "End tag p implied, but there were open elements": "unclosed-tag", // Consolidating this
-                "End tag for `body` seen, but there were unclosed elements": "unclosed-tag", // Grouping
+                "End tag “p” implied, but there were open elements.": "unclosed-tag", // Consolidating this
+                "End tag “div” seen, but there were open elements.": "unclosed-tag",
+                "End tag for “body” seen, but there were unclosed elements.": "unclosed-tag", // Grouping
+                
 
                 "Duplicate ID": "duplicate-id",
                 "An `img` element must have an `alt` attribute": "missing-alt-text",

@@ -69,7 +69,7 @@ router.post('/scan', upload.single('file'), async (req, res) => {
         const fileName = req.file ? req.file.originalname : 'Pasted Code';
         const createdAt = new Date();
 
-        db.query(
+        db.query(// 
             'INSERT INTO scan_results (user_id, file_name, issues, created_at) VALUES (?, ?, ?, ?)',
             [userId, fileName, JSON.stringify(issues), createdAt],
             (err) => {
