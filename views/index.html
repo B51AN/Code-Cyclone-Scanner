@@ -191,7 +191,7 @@
 
     <button type="submit">Scan</button>
   </form>
-
+  <!-- buttons for html, js, scan history and logout button-->
   <a href="/html-tips.html" class="extra-btn red-btn">HTML Tips</a>
   <a href="/js-tips.html" class="extra-btn blue-btn">JavaScript Tips</a>
   <a href="/scan-history.html" class="extra-btn yellow-btn">View Scan History</a>
@@ -205,6 +205,8 @@
 </footer>
 
 <script>
+
+  // response if file is not selected
   document.getElementById('file').addEventListener('change', function () {
     const fileName = this.files[0] ? this.files[0].name : 'No file selected';
     document.getElementById('file-name').textContent = fileName;
@@ -213,11 +215,13 @@
   document.getElementById('scanForm').addEventListener('submit', async (event) => {
     event.preventDefault();
 
+    // system checks file extension, checks for html htm (old version of html) and js 
     const fileInput = document.getElementById('file');
     const file = fileInput.files[0];
     const allowedTypes = ['text/html', 'application/javascript', 'text/javascript'];
     const allowedExtensions = ['.html', '.htm', '.js'];
 
+      // if file isnt js or html error response is provided
     if (file) {
       const typeValid = allowedTypes.includes(file.type);
       const extension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
@@ -225,7 +229,7 @@
 
       if (!typeValid || !extensionValid) {
         document.getElementById('results').innerHTML =
-          '<p style="color: red;">Only HTML or JavaScript (.html, .htm, .js) files are allowed.</p>';
+          '<p style="color: red;">Only HTML or JavaScript (.html, .htm, .js) files are allowed.</p>'; // response if file isnt js
         return;
       }
     }
@@ -233,29 +237,31 @@
     const formData = new FormData(event.target);
 
     try {
+      // sends data to user from server
       const response = await fetch('/scan', {
         method: 'POST',
         body: formData
       });
-
+      // if response bad then respond with this message
       if (!response.ok) throw new Error('Failed to scan file.');
 
+      // gets results and redirects user ti results page 
       const result = await response.json();
       const encoded = encodeURIComponent(JSON.stringify(result));
       window.location.href = `/results.html?data=${encoded}`;
     } catch (err) {
+      // if somthing goes wrong 
       document.getElementById('results').innerHTML =
         '<p style="color: red;">An error occurred during scanning. Please try again.</p>';
     }
   });
-
+  // logout function 
   function logout() {
     fetch('/logout').then(() => {
+      //logout brings user back to login or "root"  
       window.location.href = '/';
     });
   }
-</script>
-
 </script>
 </body>
 </html>

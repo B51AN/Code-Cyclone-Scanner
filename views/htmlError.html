@@ -138,8 +138,11 @@
     <h2 id="empty-heading">"Empty heading tag"</h2>
     <p>You made a heading (like a title) but didn’t write anything inside it. That’s like putting up a sign that doesn’t say anything.</p>
 
-    <h2 id="invalid-meta">"Meta tag is missing details"</h2>
-    <p>Meta tags tell browsers things like what character set your page uses. If you forget parts of it, the browser might not understand how to display your content properly.</p>
+    <h2 id="obsolete-font-tag">"The &lt;font&gt; element is obsolete. Use CSS instead."</h2>
+    <p>This means you're using the old <code>&lt;font&gt;</code> tag to style text, which is no longer used in modern HTML. Instead, use CSS (like <code>style="color:red;"</code>) to change how text looks. It’s a newer, better way to design your page.</p>
+
+    <h2 id="invalid-meta">"Meta tag is missing required attributes"</h2>
+    <p>This error means that a <code>&lt;meta&gt;</code> tag was used without the important attributes it needs to work properly. A <code>&lt;meta&gt;</code> tag must include at least one of these: <code>charset</code>, <code>name</code>, <code>content</code>, <code>http-equiv</code>, or similar. For example, to set the character encoding, you should write: <code>&lt;meta charset="UTF-8"&gt;</code>.</p>
 
     <h2 id="nested-form">"One form inside another"</h2>
     <p>You can’t put one form inside another. It confuses the browser. It’s like trying to send two letters in the same envelope addressed to different people.</p>
@@ -150,11 +153,18 @@
     <h2 id="unclosed-elements">"End tag for `body` seen, but there were unclosed elements"</h2>
     <p>This means you closed the <code>&lt;body&gt;</code> tag at the end of your page, but forgot to close other tags that were opened inside it. Think of it like packing a suitcase and leaving it open, then trying to zip up your backpack — it won’t work right. Always make sure every opened tag (like <code>&lt;div&gt;</code>, <code>&lt;p&gt;</code>, etc.) is properly closed before you finish your page.</p>
 
-    <h2 id="missing-alt-text">"An `img` element must have an `alt` attribute"</h2>
-    <p>Every <code>&lt;img&gt;</code> element should have an <code>alt</code> attribute that describes the image. This is important for accessibility and for users who rely on screen readers. If the image is purely decorative, you can use <code>alt=""</code> to indicate that the image does not add value to the content.</p>
+    <h2 id="missing-img-alt">"Missing alt attribute on img element"</h2>
+    <p>This means you used an <code>&lt;img&gt;</code> tag but forgot to add an <code>alt</code> text. The <code>alt</code> tells people what the image is, especially if it doesn’t load or if someone is using a screen reader. Always add something like <code>alt="a cat on a sofa"</code> to describe the image.</p>
+
+    <h2 id="p-tag-scope">"No &lt;p&gt; element in scope but a &lt;/p&gt; end tag seen"</h2>
+    <p>This means the browser saw a closing <code>&lt;/p&gt;</code> tag but didn’t find a matching opening <code>&lt;p&gt;</code> tag. It’s like trying to close a box that was never opened. Check that every <code>&lt;p&gt;</code> tag is opened before it’s closed.</p>
 
     <h2 id="input-inside-anchor">"Input inside anchor tag"</h2>
     <p>This error means you put an <code>&lt;input&gt;</code> (like a text box or button) inside a link (<code>&lt;a&gt;</code>) tag. HTML doesn’t allow this — it's like putting a whole form inside a clickable link, and browsers don't like it. If you want something that both looks like a button and acts like a link, try using a <code>&lt;button&gt;</code> and handle the link using JavaScript, or keep them separate.</p>
+
+    <h2 id="duplicate-header-id">"The first occurrence of ID “header” was here"</h2>
+    <p>This means you have used the same <code>id="header"</code> more than once in your HTML. IDs must be unique across a page. Use <code>class</code> instead if you want to style multiple elements similarly, or rename the duplicate ID to something unique.</p>
+
 
     <a href="index.html" class="home-button">Go back to scanner</a>
 </div>

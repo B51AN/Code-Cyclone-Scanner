@@ -137,19 +137,23 @@
                 "Unclosed element span": "unclosed-tag", // Group similar unclosed errors
                 "End tag “p” implied, but there were open elements.": "unclosed-tag",
                 "End tag “div” seen, but there were open elements.": "unclosed-tag",
-                "End tag for “body” seen, but there were unclosed elements.": "unclosed-tag", // Grouping
+                "End tag for “body” seen, but there were unclosed elements." : "unclosed-tag", // Grouping
                 
 
                 "Duplicate ID": "duplicate-id",
-                "An `img` element must have an `alt` attribute": "missing-alt-text",
+                "The first occurrence of ID “header” was here" :"duplicate-header-id",
+                "An “img” element must have an": "missing-img-alt",
                 "Element not allowed here": "invalid-element",
                 "Tag is no longer used": "obsolete-tag",
-                "Missing language setting": "missing-lang",
+                 "adding a “lang” attribute to the “html” start tag": "missing-lang",
                 "Empty heading tag": "empty-heading",
-                "Meta tag is missing details": "invalid-meta",
-                "One form inside another": "nested-form",
+                "element “input” must not appear as a descendant": "input-inside-anchor",
+                "Element “meta” is missing one or more of the following attributes": "invalid-meta-html",
+                "No “p” element in scope but a “p” end tag seen.": "p-tag-scope", 
+                "Nested forms are not allowed": "nestedForm",
                 "Table layout is wrong": "table-structure",
                 "Input inside anchor tag": "input-inside-anchor",
+                "The “font” element is obsolete" : "obsolete-font-tag",
                 "Stray end tag form": "nested-form", 
                 "A document must not include more than one meta element with a charset attribute": "meta-charset-duplicate"
             }; // collects results and renders it 

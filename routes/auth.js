@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const express = require('express');
 const bcrypt = require('bcrypt'); // for hashing passwords
 const db = require('../db');  // For my database. 
