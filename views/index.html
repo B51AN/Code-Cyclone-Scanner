@@ -65,8 +65,9 @@
     margin: 20px auto;
     display: flex;
     justify-content: center;
-    flex-direction: column;
     align-items: center;
+    flex-direction: row; /* changed to row to align upload and scan button side by side */
+    gap: 10px; /* spacing between them */
   }
 
   label.custom-file-upload {
@@ -93,17 +94,16 @@
     margin-top: 10px;
     font-size: 14px;
     color: #555;
+    text-align: center;
   }
 
   button, .extra-btn {
-    width: 100%;
     padding: 12px;
     font-size: 16px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: 10px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -121,6 +121,8 @@
   #logout-btn {
     background-color: #34495e;
     color: white;
+    width: 100%;
+    margin-top: 10px;
   }
 
   #logout-btn:hover {
@@ -130,6 +132,8 @@
   .red-btn {
     background-color: #e74c3c;
     color: white;
+    width: 100%;
+    margin-top: 10px;
   }
 
   .red-btn:hover {
@@ -139,6 +143,8 @@
   .blue-btn {
     background-color: #1a73e8;
     color: white;
+    width: 100%;
+    margin-top: 10px;
   }
 
   .blue-btn:hover {
@@ -148,6 +154,8 @@
   .yellow-btn {
     background-color: #f1c40f;
     color: white;
+    width: 100%;
+    margin-top: 10px;
   }
 
   .yellow-btn:hover {
@@ -165,11 +173,20 @@
     margin-top: 30px;
     font-size: 14px;
     color: #888;
+    text-align: center;
   }
 
   @media (max-width: 600px) {
     .scanner-container {
       padding: 25px;
+    }
+
+    .form-group {
+      flex-direction: column; /* stack on mobile */
+    }
+
+    #logout-btn, .extra-btn {
+      width: 100%;
     }
   }
 </style>
@@ -182,15 +199,18 @@
 
   <form id="scanForm" method="POST" action="/scan" enctype="multipart/form-data">
     <div class="form-group">
+      <!-- file upload input -->
       <label class="custom-file-upload">
         <i class="fas fa-upload"></i> Upload File
         <input type="file" name="file" id="file" />
       </label>
-      <span id="file-name">No file selected</span>
+      <!-- scan button beside upload -->
+      <button type="submit">Scan</button>
     </div>
-
-    <button type="submit">Scan</button>
+    <!-- show file name below -->
+    <span id="file-name">No file selected</span>
   </form>
+
   <!-- buttons for html, js, scan history and logout button-->
   <a href="/html-tips.html" class="extra-btn red-btn">HTML Tips</a>
   <a href="/js-tips.html" class="extra-btn blue-btn">JavaScript Tips</a>
@@ -221,7 +241,7 @@
     const allowedTypes = ['text/html', 'application/javascript', 'text/javascript'];
     const allowedExtensions = ['.html', '.htm', '.js'];
 
-      // if file isnt js or html error response is provided
+    // if file isn't js or html, error response is provided
     if (file) {
       const typeValid = allowedTypes.includes(file.type);
       const extension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
@@ -229,7 +249,7 @@
 
       if (!typeValid || !extensionValid) {
         document.getElementById('results').innerHTML =
-          '<p style="color: red;">Only HTML or JavaScript (.html, .htm, .js) files are allowed.</p>'; // response if file isnt js
+          '<p style="color: red;">Only HTML or JavaScript (.html, .htm, .js) files are allowed.</p>'; // response if file isn't valid
         return;
       }
     }
@@ -237,28 +257,30 @@
     const formData = new FormData(event.target);
 
     try {
-      // sends data to user from server
+      // sends data to server
       const response = await fetch('/scan', {
         method: 'POST',
         body: formData
       });
+
       // if response bad then respond with this message
       if (!response.ok) throw new Error('Failed to scan file.');
 
-      // gets results and redirects user ti results page 
+      // gets results and redirects user to results page 
       const result = await response.json();
       const encoded = encodeURIComponent(JSON.stringify(result));
       window.location.href = `/results.html?data=${encoded}`;
     } catch (err) {
-      // if somthing goes wrong 
+      // if something goes wrong 
       document.getElementById('results').innerHTML =
         '<p style="color: red;">An error occurred during scanning. Please try again.</p>';
     }
   });
+
   // logout function 
   function logout() {
     fetch('/logout').then(() => {
-      //logout brings user back to login or "root"  
+      // logout brings user back to login or "root"  
       window.location.href = '/';
     });
   }
